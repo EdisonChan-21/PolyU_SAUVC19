@@ -227,11 +227,11 @@ def gateDetection(img):
 
 
 if __name__ == "__main__":
-    org_img = cv2.imread('../Opencv/Img/Gate4.png')
-    # org_img = cv2.imread('../Opencv/Img/Capture5.jpg')
-    # org_img = cv2.imread('../Opencv/Img/gate.jpeg')
-    # org_img = cv2.imread('gate1.png')
-    # org_img = cv2.imread('2.jpg')
+    org_img = cv2.imread('image/Gate4.png')
+    # org_img = cv2.imread('image/Capture5.jpg')
+    # org_img = cv2.imread('image/gate.jpeg')
+    # org_img = cv2.imread('image/ate1.png')
+    # org_img = cv2.imread('image/2.jpg')
     location, img,edges = gateLocation_c(org_img)
     print(location)
     print(changeToPosCoordinate(location,img))
