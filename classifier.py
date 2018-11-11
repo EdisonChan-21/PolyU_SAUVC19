@@ -4,7 +4,7 @@ import gateDetector as gDetect
 
 
 def gateLocationClassifier(log):
-    if(len(log)<10):
+    if(len(log)<25):
         return []
     tempLog = []
     for i in log:
@@ -22,10 +22,19 @@ def gateLocationClassifier(log):
         if(abs(medianPoint[1]-i[1])<tolerance):
             countY+=1
     # print(countX)
-    if(countX >=5):
-        return medianPoint
+    if(countX >=25):
+        return gDetect.changeToCartesian(medianPoint)
     else:
         return []
+
+def boxMedianClassifier(log):
+    if(len(log)<50):
+        return []
+    else:
+        medianBox = np.median(np.array(log), axis=0)
+        return medianBox
+
+
 
 def nearGateClassifier():
     pass

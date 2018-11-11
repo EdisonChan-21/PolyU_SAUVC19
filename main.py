@@ -10,7 +10,6 @@ import imageManager as im
 # import videoStream as vs
 
 async def runFlow(control):
-    # im.taskTest(control)
     await im.task1(control)
 
 async def main():

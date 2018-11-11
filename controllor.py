@@ -35,7 +35,7 @@ class control:
         self.marginRCinput = 50
         self.gain = 0.25
         self.gainMax = 0.5 # Maximum gain
-        self.rcSendRate = 1 # seconds
+        self.updateRate = 0.5 # seconds
         self.PWMdiff = 400
         self.start = False
         self.end = False
@@ -46,12 +46,12 @@ class control:
         while (not self.end) and self.start:
             self.updateRcInput()
             self.updateInfo()
-            await asyncio.sleep(self.rcSendRate)
+            await asyncio.sleep(self.updateRate)
 
     async def test(self):
         while not self.end:
             self.updateRcInput()
-            await asyncio.sleep(self.rcSendRate)
+            await asyncio.sleep(self.updateRate)
 
     def readParam(self):
         # Request all parameters
@@ -66,17 +66,15 @@ class control:
             exit(0)
 
     def updateInfo(self):
-        self.master.mav.param_request_list_send(
-            self.master.target_system, self.master.target_component
-        )
-        # while True:
-        #     await asyncio.sleep(0.001)
-        #     try:
-        #         message = self.master.recv_match(type='PARAM_VALUE', blocking=True).to_dict()
-        #         print('name: %s\tvalue: %d' % (message['param_id'].decode("utf-8"), message['param_value']))
-        #     except Exception as e:
-        #         print(e)
-        #         exit(0)
+        position = (self.master.recv_match(type='GLOBAL_POSITION_INT', blocking=True).to_dict())
+        state = (self.master.recv_match(type='AHRS2', blocking=True).to_dict())
+        self.depth = int(position['alt']/10)
+        self.pitch = float(("{0:.2f}".format((state['pitch']*180)/3.1415)))
+        self.yaw = float(("{0:.2f}".format((state['yaw']*180)/3.1415)))
+        self.roll = float(("{0:.2f}".format((state['roll']*180)/3.1415)))
+
+    def displayInfo(self):
+        print("Depth Level : " + str(self.depth) + " cm "+ " degree  |  Pitch : " + str(self.pitch) + " degree  |  Yaw : " + str(self.yaw) + " degree  |  Roll : " + str(self.roll) + " degree ")
 
     def connectArduSub(self):
         # Create the connection
@@ -140,7 +138,7 @@ class control:
 
 
     def setYaw(self,degrees, direction, relative):
-        # self.master.mav.command_long_send(self.master.target_system, self.master.target_component, mavutil.mavlink.MAV_CMD_CONDITION_YAW,degrees,0,direction,relative,0,0,0)
+        # self.master.mav.command_long_send(self.master.target_system, self.master.target_component, mavutil.mavlink.MAV_CMD_CONDITION_YAW,0,degrees,0,direction,relative,0,0,0)
         # case MAV_CMD_CONDITION_YAW:                         // MAV ID: 115
         # cmd.content.yaw.angle_deg = packet.param1;      // target angle in degrees
         # cmd.content.yaw.turn_rate_dps = packet.param2;  // 0 = use default turn rate otherwise specific turn rate in deg/sec
