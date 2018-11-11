@@ -191,10 +191,10 @@ class control:
         master.arducopter_disarm()
         self.armed = False
 
-    def end(self):
+    def End(self):
         self.end = True # Stop sending any rc input
 
-    def start(self):
+    def Start(self):
         self.start = True
 
     def pause(self):
