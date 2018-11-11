@@ -41,7 +41,7 @@ async def task1(control):
         if ret==True:
             if (box == []):
                 location_c,img,edges = gDetect.gateDetection(frame)
-                handler.gateLocationHandler(classifier.gateLocationClassifier(gDetect.getcPointLog()),control)
+
                 box = classifier.boxMedianClassifier(gDetect.getBoxLog())
                 img = pointDrawer(img,gDetect.getcPointLog())
                 cv2.imshow('Img',img)
@@ -61,6 +61,7 @@ async def task1(control):
                 cv2.circle(frame, (int((outputBoxToDraw[0]+outputBoxToDraw[2])/2), int((outputBoxToDraw[1]+outputBoxToDraw[3])/2)), 10, [255,255,255], 4)
                 cv2.imshow('Img',frame)
                 cv2.imshow('Edge',edges)
+                handler.gateLocationHandler(gateDetector.changeToCartesian((int((outputBoxToDraw[0]+outputBoxToDraw[2])/2), int((outputBoxToDraw[1]+outputBoxToDraw[3])/2))),control)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         await asyncio.sleep(0.0001)
