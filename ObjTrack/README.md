@@ -1,8 +1,3 @@
-# Re3
-<img src="/demo/sample_1.gif" height="300"/>
-<img src="/demo/sample_2.gif" height="300"/>
-
-
 Re3 is a real-time recurrent regression tracker. It offers accuracy and robustness similar to other state-of-the-art trackers while operating at 150 FPS. For more details, contact xkcd@cs.washington.edu. This repository implements the training and testing procedure from https://arxiv.org/pdf/1705.06368.pdf. A sample of the tracker can be found here: https://youtu.be/RByCiOLlxug.
 
 ## Recent Updates:
